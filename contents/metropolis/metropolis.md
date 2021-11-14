@@ -1,6 +1,12 @@
 # Metropolis Algorithm
 
-The [Monte Carlo Integration](../monte_carlo_integration/monte_carlo_integration.html) method uses random numbers to approximate the area of pretty much any shape we choose. The Metropolis algorithm is a slightly more advanced Monte Carlo method which uses random numbers to approximate a probability distribution. What's really powerful about this approach is that you don't need to know the probability function itself - you just need a function which is _proportional_ to it. 
+The [Monte Carlo Integration](../monte_carlo_integration/monte_carlo_integration.html) method uses random numbers to approximate the area of pretty much any shape we choose. The Metropolis algorithm {{ "metropolis1953equation" | cite }} is a slightly more advanced Monte Carlo method which uses random numbers to approximate a __probability distribution__.
+
+
+
+## Metropolis
+
+What's really powerful about this approach is that you don't need to know the probability function itself - you just need a function which is _proportional_ to it. 
 
 Why is this helpful? Well, we often have probability functions of the following form:
 
@@ -18,14 +24,14 @@ This is especially true when the coordinates ($$\mathbf{x}$$) are multidimension
 The Metropolis Algorithm is very similar to a random walk, so let's first see how we can get a distribution from a random walk.
 
 <p>
-	<img class="center" src="res/animated_random_walk.gif" alt="<FIG> Random Walk in 1D" style="width:80%"/>
+	<img class="center" src="res/animated_random_walk.gif" alt="<FIG> random walk in 1D" style="width:80%"/>
 </p>
 
 The dot in the figure above is a "walker", whose initial position is $$x=0$$. The step size, $$g$$, is a random number in the interval $$(-1, 1)$$. To get the next position of the walker, we simply generate $$g$$ and add it to the current position. To get a distribution of $$x$$ from this walk, we can divide the domain into discrete locations or "bins" and count how often the walker visits each bin. Each time it visits a bin, the frequency for that bin goes up by one. Over many iterations, we get a frequency distribution of $$x$$. 
 
 ## A Random Walk With an Acceptance Criterion
 
-The Metropolis algorithm works in a similar way to the Random Walk, but differs crucially in one way - after choosing a random step for the walker, a decision is made about whether to __accept__  or __reject__ the step based on the function $$f(x)$$. To understand how this works, let's call $$x_t$$ the position before the step, and $$x'$$ the position after it. We then define the probability of __accepting the step__ to be
+The Metropolis algorithm works in a similar way to the random walk, but differs crucially in one way - after choosing a random step for the walker, a decision is made about whether to __accept__  or __reject__ the step based on the function $$f(x)$$. To understand how this works, let's call $$x_t$$ the position before the step, and $$x'$$ the position after it. We then define the probability of __accepting the step__ to be
 
 $$
 A = \min \left(\frac{f(x')}{f(x_t)}, 1\right)
@@ -55,7 +61,7 @@ The code for defining this function is given below.
 
 {% method %}
 {% sample lang="py" %}
-[import:4-13, lang:"python"](code/python/metropolis.py)
+[import:4-15, lang:"python"](code/python/metropolis.py)
 {% endmethod %}
 
 Since this is an easy function to integrate, and hence get our target distribution $$P(x)$$ directly,  we can use it to verify the Metropolis algorithm. The plot of $$P(x)$$ in the figure below shows three different peaks of varying width and height, with some overlap as well.
@@ -64,18 +70,18 @@ Since this is an easy function to integrate, and hence get our target distributi
 	<img class="center" src="res/plot_of_P.png" alt="<FIG> Plot of P(x)" style="width:80%"/>
 </p>
 
-Next, we define our walker's symmetric step generating function. As in the Random Walker example, we will use a random number in the interval $$(-1,1)$$
+Next, we define our walker's symmetric step generating function. As in the random walk example, we will use a random number in the interval $$(-1,1)$$
 
 {% method %}
 {% sample lang="py" %}
-[import:15-17, lang:"python"](code/python/metropolis.py)
+[import:17-19, lang:"python"](code/python/metropolis.py)
 {% endmethod %}
 
 Finally, we choose the domain of $$x$$, and an initial point for $$ x_0 $$ ($$x_t$$ at $$t = 0$$) chosen randomly from the domain of $$x$$.
 
 {% method %}
 {% sample lang="py" %}
-[import:34-35, lang:"python"](code/python/metropolis.py)
+[import:32-33, lang:"python"](code/python/metropolis.py)
 {% endmethod %}
 
 ### How to Iterate 
@@ -95,7 +101,7 @@ The code for steps 1 to 3 is:
 
 {% method %}
 {% sample lang="py" %}
-[import:19-31, lang:"python"](code/python/metropolis.py)
+[import:21-29, lang:"python"](code/python/metropolis.py)
 {% endmethod %}
 
 The following plot shows the result of running the algorithm for different numbers of iterations ($$N$$), with the same initial position. The histograms are normalized so that they integrate to 1. We can see the convergence toward $$P(x)$$ as we increase $$N$$.
@@ -131,6 +137,10 @@ In the example above, the probability decays very quickly as $$\left|x\right| \r
 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 </script>
 
+### Bibliography
+
+{% references %} {% endreferences %}
+
 ## License
 
 ##### Code Examples
@@ -139,13 +149,13 @@ The code examples are licensed under the MIT license (found in [LICENSE.md](http
 
 
 ##### Images/Graphics
-- The animation "[animated_random_walk](res/animated_random_walk.gif)" was created by [K. Shudipto Amin](https://github.com/shudipto-amin) and is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
+- The animation "[Animated Random Walk](res/animated_random_walk.gif)" was created by [K. Shudipto Amin](https://github.com/shudipto-amin) and is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
 
-- The animation "[animated_metropolis](res/animated_metropolis.gif)" was created by [K. Shudipto Amin](https://github.com/shudipto-amin) and is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
+- The animation "[Animated Metropolis](res/animated_metropolis.gif)" was created by [K. Shudipto Amin](https://github.com/shudipto-amin) and is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
 
-- The image "[plot_of_P](res/plot_of_P.png)" was created by [K. Shudipto Amin](https://github.com/shudipto-amin) and is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
+- The image "[Plot of P(x)](res/plot_of_P.png)" was created by [K. Shudipto Amin](https://github.com/shudipto-amin) and is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
 
-- The image "[multiple_histograms](res/multiple_histograms.png)" was created by [K. Shudipto Amin](https://github.com/shudipto-amin) and is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
+- The image "[Multiple Histograms](res/multiple_histograms.png)" was created by [K. Shudipto Amin](https://github.com/shudipto-amin) and is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/legalcode).
 
 ##### Text
 
